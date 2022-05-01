@@ -13,11 +13,18 @@ app.use( express.json() );
 
 app.use( express.urlencoded( { extended: true } ) );
 
+const db = require( './app/config/db.config' );
+
+db.sequelizeObj.sync();
+
 app.get( "/", ( req, res ) => {
     res.json( { message: "It's running !!!" } );
 } );
 
-const PORT = process.env.port || 8080;
+require( './app/routes/ong.routes' )( app );
+require( './app/routes/usuario.routes' )( app );
+
+const PORT = process.env.port || 1111;
 app.listen( PORT, () => {
     console.log( `It's running on port ${ PORT }.` );
 } );
