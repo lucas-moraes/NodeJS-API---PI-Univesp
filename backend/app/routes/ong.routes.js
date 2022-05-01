@@ -9,5 +9,7 @@ module.exports = app => {
     router.put( "/:id", ongs.update );
     router.delete( "/:id", ongs.delete );
 
+    router.post( "/schema", ongs.schema );
+
     app.use( "/api/ongs", router );
 };

@@ -3,7 +3,6 @@ const Ong = db.ong;
 const Op = db.Sequelize.Op;
 
 
-// Create and Save a new Ong
 exports.create = ( req, res ) => {
 
     //validate request
@@ -41,7 +40,6 @@ exports.create = ( req, res ) => {
         } );
 };
 
-// Retrieve all Usuarios from the database
 exports.findAll = ( req, res ) => {
     const nome = req.body.nome;
     let condition = nome ? {
@@ -60,7 +58,6 @@ exports.findAll = ( req, res ) => {
         } );
 };
 
-// Find a single Ong with id
 exports.findOne = ( req, res ) => {
     const id = req.body.id_ong;
 
@@ -82,7 +79,6 @@ exports.findOne = ( req, res ) => {
         } );
 };
 
-// update a Ong by the id in the request
 exports.update = ( req, res ) => {
     const id = req.params.id_ong;
 
@@ -103,7 +99,6 @@ exports.update = ( req, res ) => {
         } );
 };
 
-// Delete a Ong with the specified id in the request
 exports.delete = ( req, res ) => {
     const id = req.params.id_ong;
 
@@ -130,3 +125,19 @@ exports.delete = ( req, res ) => {
             } );
         } );
 };
+
+exports.schema = ( req, res ) => {
+    res.send(
+        {
+            "data_registro": "YYYY-MM-DD",
+            "nome": "Nome",
+            "endereco": "Rua Alguma coisa nº 777",
+            "complemento": "something / Can be Null",
+            "cep": "12345678",
+            "cidade": "São Paulo",
+            "estado": "SP",
+            "latitude": 10.123456,
+            "longitude": -99.999999
+        }
+    );
+}; 
