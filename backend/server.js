@@ -13,7 +13,7 @@ app.use( express.json() );
 
 app.use( express.urlencoded( { extended: true } ) );
 
-const db = require( './app/config/db.config' );
+const db = require( './src/config/db.config' );
 
 db.sequelizeObj.sync();
 
@@ -21,8 +21,8 @@ app.get( "/", ( req, res ) => {
     res.json( { message: "It's running !!!" } );
 } );
 
-require( './app/routes/ong.routes' )( app );
-require( './app/routes/usuario.routes' )( app );
+require( './src/routes/ong.routes' )( app );
+require( './src/routes/usuario.routes' )( app );
 
 const PORT = process.env.port || 1111;
 app.listen( PORT, () => {
@@ -37,9 +37,9 @@ app.listen( PORT, () => {
 
 // (
 //     async () => {
-//         const database = require( './app/config/db.config' );
-//         const Usuario = require( './app/model/usuario.model' );
-//         const Ong = require( './app/model/ong.model' );
+//         const database = require( './src/config/db.config' );
+//         const Usuario = require( './src/model/usuario.model' );
+//         const Ong = require( './src/model/ong.model' );
 
 //         try
 //         {
