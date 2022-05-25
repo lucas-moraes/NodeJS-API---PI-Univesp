@@ -20,7 +20,7 @@ export default function Home() {
   const [location, setLocation] = React.useState({
     lat: -23.5503099,
     lng: -46.6342009,
-    zoom: 12,
+    zoom: 11,
   });
 
   React.useEffect(() => {
@@ -29,10 +29,15 @@ export default function Home() {
         setLocation({
           lat: position.coords.latitude,
           lng: position.coords.longitude,
+          zoom: 15,
         });
       });
     } catch (error) {
-      console.log("Não foi possível localizar");
+      setLocation({
+        lat: -23.5503099,
+        lng: -46.6342009,
+        zoom: 12,
+      });
     }
   }, []);
 
@@ -50,8 +55,10 @@ export default function Home() {
 
   function MyMap() {
     const map = useMap();
-    map.flyTo([location.lat, location.lng], 15);
+    map.flyTo([location.lat, location.lng], location.zoom);
   }
+
+  console.log(location);
 
   return (
     <>

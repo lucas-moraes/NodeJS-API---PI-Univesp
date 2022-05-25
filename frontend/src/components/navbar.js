@@ -3,8 +3,8 @@ import React, { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon, SearchIcon } from "@heroicons/react/outline";
 import { Link } from "react-router-dom";
-
 import icon from "../assets/icon.png";
+
 export default function Navbar(props) {
   const [address, setAddress] = React.useState("");
 
