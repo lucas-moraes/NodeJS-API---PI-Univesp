@@ -18,14 +18,15 @@ const pin_ong_location = new Leaflet.icon({
 
 export default function Home() {
   const [location, setLocation] = React.useState({
-    lat: -23.5503099,
-    lng: -46.6342009,
+    lat: -23.5502001,
+    lng: -46.6342571,
     zoom: 11,
   });
 
   React.useEffect(() => {
     try {
       navigator.geolocation.getCurrentPosition((position) => {
+        console.log(position.coords);
         setLocation({
           lat: position.coords.latitude,
           lng: position.coords.longitude,
@@ -34,8 +35,8 @@ export default function Home() {
       });
     } catch (error) {
       setLocation({
-        lat: -23.5503099,
-        lng: -46.6342009,
+        lat: -23.5502001,
+        lng: -46.6342571,
         zoom: 12,
       });
     }
@@ -72,10 +73,9 @@ export default function Home() {
               style={{ with: "100%", height: "100%" }}
             >
               <MyMap />
-              {/* <TileLayer
+              <TileLayer
                 url={`https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.REACT_APP_ACCESS_TOKEN_MAP_BOX}`}
-              /> */}
-              <TileLayer url="https://a.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+              />
               <Marker
                 position={[location.lat, location.lng]}
                 icon={pin_my_location}
@@ -85,7 +85,7 @@ export default function Home() {
 
               <Marker
                 key={2}
-                position={[-23.5808015, -46.5250603]}
+                position={[-23.5806971, -46.5229319]}
                 icon={pin_ong_location}
               >
                 <Popup>OngA</Popup>
