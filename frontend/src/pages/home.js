@@ -43,8 +43,9 @@ export default function Home() {
 
   const SearchLocation = (address) => {
     fetchLocal(address)
-      .then((response) => response.json())
+      .then((response) => response.data)
       .then((data) => {
+        console.log(data.features);
         setLocation({
           lat: Number(data.features[0].center[1]),
           lng: Number(data.features[0].center[0]),
@@ -57,8 +58,6 @@ export default function Home() {
     const map = useMap();
     map.flyTo([location.lat, location.lng], location.zoom);
   }
-
-  console.log(location);
 
   return (
     <>
@@ -73,9 +72,10 @@ export default function Home() {
               style={{ with: "100%", height: "100%" }}
             >
               <MyMap />
-              <TileLayer
+              {/* <TileLayer
                 url={`https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.REACT_APP_ACCESS_TOKEN_MAP_BOX}`}
-              />
+              /> */}
+              <TileLayer url="https://a.tile.openstreetmap.org/{z}/{x}/{y}.png" />
               <Marker
                 position={[location.lat, location.lng]}
                 icon={pin_my_location}
