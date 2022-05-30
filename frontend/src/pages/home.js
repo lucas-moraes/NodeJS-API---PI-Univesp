@@ -4,7 +4,7 @@ import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import Leaflet from "leaflet";
 import myPin from "../assets/pin_my_loc.png";
 import ongPin from "../assets/pin_ongs.png";
-import { fetchLocal } from "../services/api";
+import { ChangeSearchLocation } from "../services/api";
 
 const pin_my_location = new Leaflet.icon({
   iconUrl: myPin,
@@ -17,6 +17,8 @@ const pin_ong_location = new Leaflet.icon({
 });
 
 export default function Home() {
+  const [address, setAddress] = React.useState("");
+  const [respAddresses, setRespAddresses] = React.useState("");
   const [location, setLocation] = React.useState({
     lat: -23.5502001,
     lng: -46.6342571,
@@ -26,7 +28,6 @@ export default function Home() {
   React.useEffect(() => {
     try {
       navigator.geolocation.getCurrentPosition((position) => {
-        console.log(position.coords);
         setLocation({
           lat: position.coords.latitude,
           lng: position.coords.longitude,
@@ -42,17 +43,14 @@ export default function Home() {
     }
   }, []);
 
-  const SearchLocation = (address) => {
-    fetchLocal(address)
-      .then((response) => response.data)
-      .then((data) => {
-        console.log(data.features);
-        setLocation({
-          lat: Number(data.features[0].center[1]),
-          lng: Number(data.features[0].center[0]),
-          zomm: 20,
+  const OnChangeSearchLocation = (address) => {
+    if (address.length > 7) {
+      ChangeSearchLocation(address)
+        .then((response) => response.data)
+        .then((data) => {
+          setRespAddresses(data?.features);
         });
-      });
+    }
   };
 
   function MyMap() {
@@ -62,7 +60,22 @@ export default function Home() {
 
   return (
     <>
-      <Navbar searchClick={(address) => SearchLocation(address)} />
+      <Navbar
+        responseSearch={respAddresses}
+        clearAddress={(value) => {
+          setAddress(value);
+          setRespAddresses("");
+        }}
+        searchOnChange={(value) => {
+          setAddress(value);
+          OnChangeSearchLocation(address);
+        }}
+        selectedLocal={(value) => {
+          setAddress(value);
+          setLocation(value);
+          setRespAddresses("");
+        }}
+      />
 
       <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-6">
         <div className="sm:text-center lg:text-left">

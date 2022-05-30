@@ -1,12 +1,13 @@
 /* This example requires Tailwind CSS v2.0+ */
 import React, { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
-import { MenuIcon, XIcon, SearchIcon } from "@heroicons/react/outline";
+import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import { Link } from "react-router-dom";
 import icon from "../assets/icon.png";
 
 export default function Navbar(props) {
-  const [address, setAddress] = React.useState("");
+  const [value, setValue] = React.useState("");
+  const [isOpen, setIsOpen] = React.useState(false);
 
   return (
     <Popover className="relative">
@@ -14,22 +15,88 @@ export default function Navbar(props) {
         <div className="flex justify-between items-center border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
           <div className="hidden md:flex items-center justify-start md:flex-1 lg:w-0">
             <div className="flex">
-              <input
-                type="text"
-                name="first-name"
-                placeholder="Digite o endereço"
-                id="first-name"
-                autoComplete="given-name"
-                className="focus:ring-lime-500 focus:border-lime-500 block w-60 shadow-sm sm:text-sm border-gray-300 rounded-md"
-                onChange={(e) => setAddress(e.target.value)}
-              />
-              <button
-                type="submit"
-                className="ml-3 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-lime-600 hover:bg-lime-700"
-                onClick={() => props.searchClick(address)}
-              >
-                <SearchIcon className="h-6 w-6" aria-hidden="true" />
-              </button>
+              <div className="relative">
+                <div className="h-10 bg-white flex border border-gray-200 rounded items-center">
+                  <input
+                    placeholder="Digite seu endereço e município"
+                    width={100}
+                    name="select"
+                    id="select"
+                    className="px-4 appearance-none outline-none text-gray-800 w-full"
+                    value={value}
+                    onChange={(e) => {
+                      props.searchOnChange(e.target.value);
+                      setValue(e.target.value);
+                      setIsOpen(true);
+                    }}
+                  />
+
+                  <button
+                    className="cursor-pointer outline-none focus:outline-none transition-all text-gray-300 hover:text-gray-600"
+                    onClick={() => {
+                      props.clearAddress("");
+                      setValue("");
+                    }}
+                  >
+                    <svg
+                      className="w-4 h-4 mx-2 fill-current"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                  </button>
+                  <label className="cursor-pointer outline-none focus:outline-none border-l border-gray-200 transition-all text-gray-300 hover:text-gray-600">
+                    <svg
+                      className="w-4 h-4 mx-2 fill-current"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <polyline points="18 15 12 9 6 15"></polyline>
+                    </svg>
+                  </label>
+                </div>
+
+                <input
+                  type="checkbox"
+                  name="show_more"
+                  id="show_more"
+                  className="hidden peer"
+                  checked={isOpen}
+                  onChange={() => {}}
+                />
+                <div className="absolute rounded shadow bg-white z-40 overflow-hidden hidden peer-checked:flex flex-col w-full mt-1 border border-gray-200">
+                  {props.responseSearch &&
+                    props.responseSearch.map((item, index) => (
+                      <div key={index} className="cursor-pointer group">
+                        <div
+                          className="block p-2 border-transparent font-light text-sm border-l-4 group-hover:border-lime-600 group-hover:bg-gray-100"
+                          value={item.center}
+                          onClick={() => {
+                            setValue(item.text);
+                            setIsOpen(false);
+                            props.selectedLocal({
+                              lat: item.center[1],
+                              lng: item.center[0],
+                              zoom: 15,
+                            });
+                          }}
+                        >
+                          {item.place_name}
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              </div>
             </div>
           </div>
 

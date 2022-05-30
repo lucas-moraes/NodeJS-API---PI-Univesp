@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const fetchLocal = (address) => {
+export const ChangeSearchLocation = (address) => {
   const data = address;
   return axios.post("http://localhost:3003/external/getLocal", {
     data,
