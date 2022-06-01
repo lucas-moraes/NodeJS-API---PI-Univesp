@@ -4,7 +4,7 @@ import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import Leaflet from "leaflet";
 import myPin from "../assets/pin_my_loc.png";
 import ongPin from "../assets/pin_ongs.png";
-import { ChangeSearchLocation } from "../services/api";
+import { ChangeSearchLocation, GetAll } from "../services/api";
 
 const pin_my_location = new Leaflet.icon({
   iconUrl: myPin,
@@ -22,8 +22,9 @@ export default function Home() {
   const [location, setLocation] = React.useState({
     lat: -23.5502001,
     lng: -46.6342571,
-    zoom: 11,
+    zoom: 13,
   });
+  const [ongAddress, setOngAddress] = React.useState();
 
   React.useEffect(() => {
     try {
@@ -31,9 +32,14 @@ export default function Home() {
         setLocation({
           lat: position.coords.latitude,
           lng: position.coords.longitude,
-          zoom: 15,
+          zoom: 13,
         });
       });
+      GetAll()
+        .then((response) => response.data)
+        .then((data) => {
+          setOngAddress(data);
+        });
     } catch (error) {
       setLocation({
         lat: -23.5502001,
@@ -95,14 +101,19 @@ export default function Home() {
               >
                 <Popup>Sua Localização</Popup>
               </Marker>
-
-              <Marker
-                key={2}
-                position={[-23.5806971, -46.5229319]}
-                icon={pin_ong_location}
-              >
-                <Popup>OngA</Popup>
-              </Marker>
+              {ongAddress &&
+                ongAddress.map((item) => {
+                  return (
+                    <React.Fragment key={item.id_ong}>
+                      <Marker
+                        position={[item.latitude, item.longitude]}
+                        icon={pin_ong_location}
+                      >
+                        <Popup>{item.nome}</Popup>
+                      </Marker>
+                    </React.Fragment>
+                  );
+                })}
             </MapContainer>
           </div>
         </div>

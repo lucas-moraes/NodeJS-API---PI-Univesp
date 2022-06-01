@@ -38,14 +38,7 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-  const nome = req.body.nome;
-  let condition = nome
-    ? {
-        nome: { [Op.like]: `%${nome}%` },
-      }
-    : null;
-
-  Ong.findAll({ where: condition })
+  Ong.findAll({ attributes: ["id_ong", "nome", "latitude", "longitude"] })
     .then((data) => {
       res.send(data);
     })

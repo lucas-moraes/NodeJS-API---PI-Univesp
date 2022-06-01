@@ -19,7 +19,7 @@ export const ChangeSearchLocation = (address) => {
 };
 
 export const CreateOng = (dados) => {
-  let data = JSON.stringify(dados);
+  let data = dados;
   return axios.post("http://localhost:3003/api/ongs", {
     data,
     headers: {

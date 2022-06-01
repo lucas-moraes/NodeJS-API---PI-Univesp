@@ -1,10 +1,11 @@
 import React from "react";
 import icon from "../assets/icon.png";
 import { ChangeSearchLocation, CreateOng } from "../services/api";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import crypto from "crypto-js";
 
 export default function SignUp() {
+  let navigate = useNavigate();
   const [isOpen, setIsOpen] = React.useState(false);
   const [isVisible, setIsVisible] = React.useState("hidden");
   const [respAddresses, setRespAddresses] = React.useState("");
@@ -37,9 +38,8 @@ export default function SignUp() {
     let pass = crypto.SHA256(dados.pwd);
     dados.pwd = pass.toString(crypto.enc.Hex);
 
-    CreateOng(dados)
-      .then((response) => response.data)
-      .then((data) => console.log(data));
+    CreateOng(dados).then((response) => response.data);
+    navigate("/", { replace: true });
   }
 
   return (
@@ -95,7 +95,9 @@ export default function SignUp() {
                       />
 
                       <button
-                        className="cursor-pointer outline-none focus:outline-none transition-all text-gray-300 hover:text-gray-600"
+                        className={`${
+                          !isOpen ? "hidden" : ""
+                        } cursor-pointer outline-none focus:outline-none transition-all text-gray-300 hover:text-gray-600`}
                         onClick={() => {
                           setDados({
                             ...dados,
@@ -107,6 +109,7 @@ export default function SignUp() {
                             longitude: "",
                           });
                           setIsVisible("hidden");
+                          setIsOpen(false);
                         }}
                       >
                         <svg
