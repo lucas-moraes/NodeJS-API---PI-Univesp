@@ -51,19 +51,6 @@ export default function Navbar(props) {
                       <line x1="6" y1="6" x2="18" y2="18"></line>
                     </svg>
                   </button>
-                  <label className="cursor-pointer outline-none focus:outline-none border-l border-gray-200 transition-all text-gray-300 hover:text-gray-600">
-                    <svg
-                      className="w-4 h-4 mx-2 fill-current"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <polyline points="18 15 12 9 6 15"></polyline>
-                    </svg>
-                  </label>
                 </div>
 
                 <input
@@ -74,7 +61,7 @@ export default function Navbar(props) {
                   checked={isOpen}
                   onChange={() => {}}
                 />
-                <div className="absolute rounded shadow bg-white z-40 overflow-hidden hidden peer-checked:flex flex-col w-full mt-1 border border-gray-200">
+                <div className="absolute border-transparent rounded shadow bg-white z-40 overflow-hidden hidden peer-checked:flex flex-col w-full mt-1 border-l border-r border-b border-gray-200">
                   {props.responseSearch &&
                     props.responseSearch.map((item, index) => (
                       <div key={index} className="cursor-pointer group">

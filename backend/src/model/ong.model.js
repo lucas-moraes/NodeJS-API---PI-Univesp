@@ -14,6 +14,10 @@ module.exports = (sequelizeObj, Sequelize) => {
       type: Sequelize.STRING(50),
       allowNull: false,
     },
+    pwd: {
+      type: Sequelize.STRING(100),
+      allowNull: false,
+    },
     endereco: {
       type: Sequelize.STRING(255),
       allowNull: false,
@@ -23,7 +27,7 @@ module.exports = (sequelizeObj, Sequelize) => {
       allowNull: false,
     },
     estado: {
-      type: Sequelize.STRING(2),
+      type: Sequelize.STRING(100),
       allowNull: false,
     },
     latitude: {

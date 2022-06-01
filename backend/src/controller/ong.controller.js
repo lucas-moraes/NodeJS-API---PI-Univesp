@@ -4,25 +4,25 @@ const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
   //validate request
-  if (!req.body.nome) {
+  if (!req.body.data) {
     res.status(400).send({
-      message: "Content not be empty !",
+      message: "Nome not be empty !",
     });
     return;
   }
 
   // Create a ong
   const ong = {
-    id_ong: req.body.id_ong,
-    data_registro: req.body.data_registro,
-    nome: req.body.nome,
-    endereco: req.body.endereco,
-    complemento: req.body.complemento,
-    cep: req.body.cep,
-    cidade: req.body.cidade,
-    estado: req.body.estado,
-    latitude: req.body.latitude,
-    longitude: req.body.longitude,
+    data_registro: req.body.data.data_registro,
+    nome: req.body.data.nome,
+    pwd: req.body.data.pwd,
+    endereco: req.body.data.endereco,
+    complemento: req.body.data.complemento,
+    cep: req.body.data.cep,
+    cidade: req.body.data.cidade,
+    estado: req.body.data.estado,
+    latitude: req.body.data.latitude,
+    longitude: req.body.data.longitude,
   };
 
   // Save ong in the database
@@ -125,11 +125,12 @@ exports.schema = (req, res) => {
   res.send({
     data_registro: "YYYY-MM-DD",
     nome: "Nome",
+    pwd: "Pass",
     endereco: "Rua Alguma coisa nº 777",
     complemento: "something / Can be Null",
     cep: "12345678",
     cidade: "São Paulo",
-    estado: "SP",
+    estado: "São Paulo",
     latitude: 10.123456,
     longitude: -99.999999,
   });
