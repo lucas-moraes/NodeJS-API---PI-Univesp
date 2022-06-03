@@ -11,79 +11,79 @@ export default function Navbar(props) {
 
   return (
     <Popover className="relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 ">
+      <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
-          <div className="hidden md:flex items-center justify-start md:flex-1 lg:w-0">
-            <div className="flex">
-              <div className="relative">
-                <div className="h-10 bg-white flex border border-gray-200 rounded items-center">
-                  <input
-                    placeholder="Digite seu endereço e município"
-                    width={100}
-                    name="select"
-                    id="select"
-                    className="px-4 appearance-none outline-none text-gray-800 w-full"
-                    value={value}
-                    onChange={(e) => {
-                      props.searchOnChange(e.target.value);
-                      setValue(e.target.value);
-                      setIsOpen(true);
-                    }}
-                  />
-
-                  <button
-                    className="cursor-pointer outline-none focus:outline-none transition-all text-gray-300 hover:text-gray-600"
-                    onClick={() => {
-                      props.clearAddress("");
-                      setValue("");
-                    }}
+          <div className="hidden md:block items-center justify-start md:flex-1 lg:w-0">
+            <div className="relative w-full flex border border-gray-400 rounded items-center">
+              <input
+                placeholder="Digite seu endereço e município"
+                width={100}
+                name="select"
+                id="select"
+                className="relative h-10 px-4 rounded-md appearance-none outline-none text-gray-800 w-full  focus:shadow-md focus:shadow-gray-600/50 "
+                value={value}
+                onChange={(e) => {
+                  props.searchOnChange(e.target.value);
+                  setValue(e.target.value);
+                  setIsOpen(true);
+                }}
+              />
+              {isOpen ? (
+                <button
+                  className={`absolute right-0 cursor-pointer outline-none focus:outline-none transition-all text-gray-300 hover:text-gray-600`}
+                  onClick={() => {
+                    props.clearAddress("");
+                    setValue("");
+                    setIsOpen(false);
+                  }}
+                >
+                  <svg
+                    className="w-4 h-4 mx-2 fill-current"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   >
-                    <svg
-                      className="w-4 h-4 mx-2 fill-current"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <line x1="18" y1="6" x2="6" y2="18"></line>
-                      <line x1="6" y1="6" x2="18" y2="18"></line>
-                    </svg>
-                  </button>
-                </div>
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+              ) : (
+                <></>
+              )}
+            </div>
 
-                <input
-                  type="checkbox"
-                  name="show_more"
-                  id="show_more"
-                  className="hidden peer"
-                  checked={isOpen}
-                  onChange={() => {}}
-                />
-                <div className="absolute border-transparent rounded shadow bg-white z-40 overflow-hidden hidden peer-checked:flex flex-col w-full mt-1 border-l border-r border-b border-gray-200">
-                  {props.responseSearch &&
-                    props.responseSearch.map((item, index) => (
-                      <div key={index} className="cursor-pointer group">
-                        <div
-                          className="block p-2 border-transparent font-light text-sm border-l-4 group-hover:border-lime-600 group-hover:bg-gray-100"
-                          value={item.center}
-                          onClick={() => {
-                            setValue(item.text);
-                            setIsOpen(false);
-                            props.selectedLocal({
-                              lat: item.center[1],
-                              lng: item.center[0],
-                              zoom: 15,
-                            });
-                          }}
-                        >
-                          {item.place_name}
-                        </div>
-                      </div>
-                    ))}
-                </div>
-              </div>
+            <input
+              type="checkbox"
+              name="show_more"
+              id="show_more"
+              className="hidden peer"
+              checked={isOpen}
+              onChange={() => {}}
+            />
+            <div className="absolute border-transparent rounded shadow bg-white z-40 overflow-hidden hidden peer-checked:flex flex-col mt-1 border-l border-r border-b border-gray-200">
+              {props.responseSearch &&
+                props.responseSearch.map((item, index) => (
+                  <div key={index} className="cursor-pointer group">
+                    <div
+                      className="block p-2 border-transparent font-light text-sm border-l-4 group-hover:border-lime-600 group-hover:bg-gray-100"
+                      value={item.center}
+                      onClick={() => {
+                        setValue(item.text);
+                        setIsOpen(false);
+                        props.selectedLocal({
+                          lat: item.center[1],
+                          lng: item.center[0],
+                          zoom: 15,
+                        });
+                      }}
+                    >
+                      {item.place_name}
+                    </div>
+                  </div>
+                ))}
             </div>
           </div>
 
@@ -104,7 +104,7 @@ export default function Navbar(props) {
           <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
             <Link
               to="/profile"
-              className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
+              className="whitespace-nowrap text-base font-medium text-gray-50 hover:text-gray-900"
             >
               Acesso perfil
             </Link>

@@ -43,7 +43,7 @@ export default function SignUp() {
   }
 
   return (
-    <>
+    <div className="bg-gradient-to-l from-teal-500 to-green-500 absolute h-full w-full">
       <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
           <div>
@@ -53,7 +53,7 @@ export default function SignUp() {
                 Cadastro de ONG's
               </h2>
             </div>
-            <div className="px-4 py-5 bg-white sm:p-6">
+            <div className="px-4 py-5 sm:p-6">
               <div className="grid grid-cols-1 gap-6">
                 <div className="col-span-6 sm:col-span-4">
                   <label
@@ -68,7 +68,10 @@ export default function SignUp() {
                     className="mt-1 focus:ring-lime-500 focus:border-lime-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                     value={dados.nome}
                     onChange={(e) => {
-                      setDados({ ...dados, nome: e.target.value });
+                      setDados({
+                        ...dados,
+                        nome: e.target.value.toLowerCase(),
+                      });
                     }}
                   />
                 </div>
@@ -80,24 +83,21 @@ export default function SignUp() {
                   >
                     Endereço
                   </label>
-                  <div className="relative">
-                    <div className="h-10 bg-white flex border border-gray-200 rounded items-center">
-                      <input
-                        placeholder="Digite seu endereço e município"
-                        width={100}
-                        name="select"
-                        className="px-4 appearance-none outline-none text-gray-800 w-full"
-                        value={dados.endereco}
-                        onChange={(e) => {
-                          SearchOnChange(e.target.value);
-                          setDados({ ...dados, endereco: e.target.value });
-                        }}
-                      />
-
+                  <div className="relative w-full flex items-center">
+                    <input
+                      placeholder="Digite seu endereço e município"
+                      width={100}
+                      name="select"
+                      className="relative h-10 px-4 rounded-md border-2 border-gray-300 outline-none text-gray-800 w-full focus:ring-lime-500 focus:border-lime-500 "
+                      value={dados.endereco}
+                      onChange={(e) => {
+                        SearchOnChange(e.target.value);
+                        setDados({ ...dados, endereco: e.target.value });
+                      }}
+                    />
+                    {isOpen ? (
                       <button
-                        className={`${
-                          !isOpen ? "hidden" : ""
-                        } cursor-pointer outline-none focus:outline-none transition-all text-gray-300 hover:text-gray-600`}
+                        className={` absolute right-0 cursor-pointer outline-none focus:outline-none transition-all text-gray-300 hover:text-gray-600`}
                         onClick={() => {
                           setDados({
                             ...dados,
@@ -125,75 +125,77 @@ export default function SignUp() {
                           <line x1="6" y1="6" x2="18" y2="18"></line>
                         </svg>
                       </button>
-                    </div>
+                    ) : (
+                      <></>
+                    )}
+                  </div>
 
-                    <input
-                      type="checkbox"
-                      name="show_more"
-                      id="show_more"
-                      className="hidden peer"
-                      checked={isOpen}
-                      onChange={() => {}}
-                    />
-                    <div className="absolute border-transparent rounded shadow bg-white z-40 overflow-hidden hidden peer-checked:flex flex-col w-full mt-1 border-l border-r border-b border-gray-200">
-                      {respAddresses &&
-                        respAddresses.map((item, index) => (
-                          <div key={index} className="cursor-pointer group">
-                            <div
-                              className="block p-2 border-transparent font-light text-sm border-l-4 group-hover:border-lime-600 group-hover:bg-gray-100"
-                              value={item.center}
-                              onClick={() => {
-                                dados.endereco = item.text;
-                                setIsOpen(false);
-                                setDados({
-                                  ...dados,
-                                  endereco: item.text,
-                                  cep: item.context[0].text,
-                                  cidade: item.context[2].text,
-                                  estado: item.context[3].text,
-                                  latitude: item.center[1],
-                                  longitude: item.center[0],
-                                });
-                                setIsVisible("block");
-                              }}
-                            >
-                              {item.place_name}
-                            </div>
+                  <input
+                    type="checkbox"
+                    name="show_more"
+                    id="show_more"
+                    className="hidden peer"
+                    checked={isOpen}
+                    onChange={() => {}}
+                  />
+                  <div className="absolute border-transparent rounded shadow bg-white z-40 overflow-hidden hidden peer-checked:flex flex-col w-full mt-1 border-l border-r border-b border-gray-200">
+                    {respAddresses &&
+                      respAddresses.map((item, index) => (
+                        <div key={index} className="cursor-pointer group">
+                          <div
+                            className="block p-2 border-transparent font-light text-sm border-l-4 group-hover:border-lime-600 group-hover:bg-gray-100"
+                            value={item.center}
+                            onClick={() => {
+                              dados.endereco = item.text;
+                              setIsOpen(false);
+                              setDados({
+                                ...dados,
+                                endereco: item.text,
+                                cep: item.context[0].text,
+                                cidade: item.context[2].text,
+                                estado: item.context[3].text,
+                                latitude: item.center[1],
+                                longitude: item.center[0],
+                              });
+                              setIsVisible("block");
+                            }}
+                          >
+                            {item.place_name}
                           </div>
-                        ))}
+                        </div>
+                      ))}
+                  </div>
+                  <div
+                    className={`${isVisible} mt-4 text-sm transition duration-700 ease-in-out`}
+                  >
+                    <div className="col-span-6 sm:col-span-4 underline">
+                      <span className="font-bold">Endereço: </span>
+                      <span>{dados["endereco"]}</span>
                     </div>
-                    <div
-                      className={`${isVisible} mt-4 text-sm transition duration-700 ease-in-out`}
-                    >
-                      <div className="col-span-6 sm:col-span-4 underline">
-                        <span className="font-bold">Endereço: </span>
-                        <span>{dados["endereco"]}</span>
-                      </div>
-                      <div className="col-span-6 sm:col-span-4 underline">
-                        <span className="font-bold">Cidade: </span>
-                        <span>{dados["cidade"]}</span>
-                      </div>
-                      <div className="col-span-6 sm:col-span-4 underline">
-                        <span className="font-bold">Estado: </span>
-                        <span>{dados["estado"]}</span>
-                      </div>
-                      <div className="mt-4 col-span-6 sm:col-span-4">
-                        <label
-                          htmlFor="nome"
-                          className="block text-sm font-medium text-gray-700"
-                        >
-                          Senha
-                        </label>
-                        <input
-                          type="password"
-                          name="nome"
-                          className="mt-1 focus:ring-lime-500 focus:border-lime-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                          value={dados.pwd}
-                          onChange={(e) => {
-                            setDados({ ...dados, pwd: e.target.value });
-                          }}
-                        />
-                      </div>
+                    <div className="col-span-6 sm:col-span-4 underline">
+                      <span className="font-bold">Cidade: </span>
+                      <span>{dados["cidade"]}</span>
+                    </div>
+                    <div className="col-span-6 sm:col-span-4 underline">
+                      <span className="font-bold">Estado: </span>
+                      <span>{dados["estado"]}</span>
+                    </div>
+                    <div className="mt-4 col-span-6 sm:col-span-4">
+                      <label
+                        htmlFor="nome"
+                        className="block text-sm font-medium text-gray-700"
+                      >
+                        Senha
+                      </label>
+                      <input
+                        type="password"
+                        name="nome"
+                        className="mt-1 focus:ring-lime-500 focus:border-lime-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                        value={dados.pwd}
+                        onChange={(e) => {
+                          setDados({ ...dados, pwd: e.target.value });
+                        }}
+                      />
                     </div>
                   </div>
                 </div>
@@ -207,7 +209,7 @@ export default function SignUp() {
                   </button>
                   <Link
                     to="/"
-                    className="whitespace-nowrap my-3 text-base font-medium text-gray-500 hover:text-gray-900"
+                    className="whitespace-nowrap my-3 text-base font-medium text-gray-200 hover:text-gray-900"
                   >
                     Voltar
                   </Link>
@@ -217,6 +219,6 @@ export default function SignUp() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

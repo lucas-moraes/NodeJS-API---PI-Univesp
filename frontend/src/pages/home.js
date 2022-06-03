@@ -65,7 +65,7 @@ export default function Home() {
   }
 
   return (
-    <>
+    <div className="bg-gradient-to-l from-teal-500 to-green-500 absolute h-full w-full">
       <Navbar
         responseSearch={respAddresses}
         clearAddress={(value) => {
@@ -83,7 +83,7 @@ export default function Home() {
         }}
       />
 
-      <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-6">
+      <main className="mx-auto max-w-7xl z-100">
         <div className="sm:text-center lg:text-left">
           <div style={{ height: "80vh" }}>
             <MapContainer
@@ -93,7 +93,7 @@ export default function Home() {
             >
               <MyMap />
               <TileLayer
-                url={`https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.REACT_APP_ACCESS_TOKEN_MAP_BOX}`}
+                url={`https://api.mapbox.com/styles/v1/mapbox/dark-v10/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.REACT_APP_ACCESS_TOKEN_MAP_BOX}`}
               />
               <Marker
                 position={[location.lat, location.lng]}
@@ -118,6 +118,6 @@ export default function Home() {
           </div>
         </div>
       </main>
-    </>
+    </div>
   );
 }

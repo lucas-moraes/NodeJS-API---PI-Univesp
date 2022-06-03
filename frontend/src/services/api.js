@@ -27,3 +27,13 @@ export const CreateOng = (dados) => {
     },
   });
 };
+
+export const Auth = (login) => {
+  const nome = login;
+  return axios.get(`http://localhost:3003/api/ongs/${nome}`, {
+    nome,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+};

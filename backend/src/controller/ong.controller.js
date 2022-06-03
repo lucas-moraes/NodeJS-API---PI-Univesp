@@ -51,21 +51,23 @@ exports.findAll = (req, res) => {
 };
 
 exports.findOne = (req, res) => {
-  const id = req.body.id_ong;
+  const nome = req.params.nome;
 
-  Ong.findByPk(id)
+  console.log(nome);
+
+  Ong.findOne({ where: { nome: nome } })
     .then((data) => {
       if (data) {
         res.send(data);
       } else {
         res.status(404).send({
-          message: `Cannot find Ong with id=${id}.`,
+          message: `Cannot find Ong with nome=${nome}.`,
         });
       }
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error retrieving Ong with id = " + id,
+        message: "Error retrieving Ong with nome = " + nome,
       });
     });
 };
