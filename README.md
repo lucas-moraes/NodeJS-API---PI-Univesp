@@ -19,11 +19,3 @@
 <h4> 📚 Projeto Busca ONG Pet - Sistema de consulta e cadastro de ONG's para animais em situação de rua</h4>
 
 ---
-
-🟡 Sobre o problema encontrado
-
-🟡 Sobre a solução implementada
-
-🟡 Estrutura do projeto
-
-🟡 Como rodar o projeto
